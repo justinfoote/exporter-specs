@@ -28,17 +28,21 @@ meet the following requirements:
 4. The stream **SHOULD** log in UTF-8; however, it's more important that the log forwarder is capable of 
 reading the output character set.
 
-## Required fields
+## Fields to Include
 
-| key | type | description |
-| --- | ---- |----------- |
-| `message` | String | The rendered and internationalized string logged by the user. |
-| `timestamp` | 64 bit Integer |The time that the log statement was emitted, in milliseconds since the epoch. |
+| key         | type           | required | description |
+| ---         | ----           | -------- | ----------- |
+| `message`   | String         | yes      | The rendered and internationalized string logged by the user. |
+| `timestamp` | 64 bit Integer | yes      | The time that the log statement was emitted, in milliseconds since the epoch. |
+| `trace.id`  | String         | no       | The id of the currently executing trace.  Log messages with this field included will be linked from the New Relic Distributed Tracing UI. |
+| `span.id`   | String         | no       | The id of the currently executing [span](https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#span). |
+| `entity.name` | String       | no       | The name of the current application.  Agents read this value from the `app_name` field in the agents config. |
+| `entity.guid` | String       | no       | The guid of the current [entity](https://docs.newrelic.com/docs/using-new-relic/welcome-new-relic/get-started/glossary#entity).  This value is provided by an agent API method. |
+| `hostname`    | String       | no       | The fully qualified hostname. |
 
-In addition, all fields returned by the agent's public [linking metadata accessor](https://docs.newrelic.com/docs/logs/enable-logs/logs-context-agent-apis/annotate-logs-logs-context-using-apm-agent-apis)
-**MUST** be included.
+See also: https://docs.newrelic.com/docs/logs/enable-logs/logs-context-agent-apis/annotate-logs-logs-context-using-apm-agent-apis
 
-## Common Optional Fields
+## Other Common Optional Fields
 
 Any fields present in the decorated logging framework's message abstraction should be
 considered for inclusion in the JSON output.
